@@ -1,0 +1,41 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "MinForsyning login",
+        "description": "Log ind med din MinForsyning e-mail og adgangskode. Forsyningsnummeret finder du i URL'en på MinForsyning-siden (parametret 'utility').",
+        "data": {
+          "email": "E-mail",
+          "password": "Adgangskode",
+          "utility": "Forsyningsnummer"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Ugyldig e-mail eller adgangskode.",
+      "cannot_connect": "Kan ikke oprette forbindelse til MinForsyning.",
+      "login_page_changed": "Login-sidens struktur er ændret. Kontakt integration-udvikleren.",
+      "unknown": "Ukendt fejl opstod."
+    },
+    "abort": {
+      "already_configured": "MinForsyning er allerede konfigureret for denne konto."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opdater login-oplysninger",
+        "data": {
+          "email": "E-mail",
+          "password": "Adgangskode",
+          "utility": "Forsyningsnummer"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Ugyldig e-mail eller adgangskode.",
+      "cannot_connect": "Kan ikke oprette forbindelse til MinForsyning.",
+      "unknown": "Ukendt fejl opstod."
+    }
+  }
+}
