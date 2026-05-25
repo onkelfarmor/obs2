@@ -1,3 +1,78 @@
+# obs2 – Home Assistant Integrationer
+
+Dette repository indeholder to Home Assistant custom integrations:
+
+| Integration | Beskrivelse |
+|-------------|-------------|
+| **Navimow** | Segway Navimow plæneklipper — status, kontrol, batteri og GPS-stivisualisering |
+| **MinForsyning** | KMD Easy Energy vandforbrug — sensorer til Energy Dashboard |
+
+---
+
+## Installation via HACS (anbefalet)
+
+1. Åbn HACS i Home Assistant.
+2. Klik på **⋮ → Brugerdefinerede repositories**.
+3. Indsæt `https://github.com/onkelfarmor/obs2` og vælg kategori **Integration**.
+4. Søg efter **Navimow** eller **MinForsyning** og installer.
+5. Genstart Home Assistant.
+
+---
+
+# Navimow – Segway Navimow plæneklipper
+
+Integrerer Segway Navimow plæneklippere med Home Assistant via Navimows cloud-API og MQTT.
+
+## Konfiguration
+
+1. Gå til **Indstillinger → Enheder og tjenester → Tilføj integration**.
+2. Søg efter **Navimow** og klik på den.
+3. Log ind med din Navimow-konto (åbner Navimows login-side).
+4. Angiv GPS-koordinaterne for din dokke-station (bruges til at omregne klipperens relative position til rigtige kortkoordinater).
+
+> Dokke-koordinaterne finder du i Google Maps ved at holde fingeren nede på dok-placeringen.
+
+## Enheder
+
+Integrationen opretter følgende per klipper:
+
+| Entity | Beskrivelse |
+|--------|-------------|
+| `lawn_mower.<navn>` | Klipperens status + Start / Pause / Dok-knapper |
+| `sensor.<navn>_batteri` | Batteriniveau i % |
+| `sensor.<navn>_klippefremgang` | Klipningens fremgang i % |
+| `device_tracker.<navn>_position` | Klipperens GPS-position på kortet |
+| `image.<navn>_klippesti` | Realtids PNG-visualisering af klippestien (via MQTT) |
+
+## Lovelace – Kort visning
+
+```yaml
+type: vertical-stack
+cards:
+  - type: tile
+    entity: lawn_mower.navimow_din_klipper
+    features:
+      - type: lawn-mower-commands
+        commands:
+          - start_mowing
+          - pause
+          - dock
+  - type: picture-entity
+    entity: image.navimow_din_klipper_klippesti
+    show_state: false
+    show_name: false
+```
+
+## Fejlsøgning
+
+```yaml
+logger:
+  logs:
+    custom_components.navimow: debug
+```
+
+---
+
 # MinForsyning – Home Assistant Custom Integration
 
 Henter dagligt vandforbrug fra **MinForsyning (KMD Easy Energy)** og eksponerer det som sensorer i Home Assistant – klar til Energy Dashboard og automatiseringer.
@@ -6,10 +81,12 @@ Henter dagligt vandforbrug fra **MinForsyning (KMD Easy Energy)** og eksponerer 
 
 ## Installation
 
-### HACS (anbefalet)
-1. Tilføj dette repository som *custom repository* i HACS.
-2. Søg efter **MinForsyning** og installer.
-3. Genstart Home Assistant.
+### Manuel
+1. Kopiér mappen `custom_components/minforsyning/` til din HA-konfigurationsmappe under `custom_components/`.
+2. Genstart Home Assistant.
+
+### HACS
+Se installationsvejledningen øverst i dette dokument.
 
 ### Manuel
 1. Kopiér mappen `custom_components/minforsyning/` til din HA-konfigurationsmappe under `custom_components/`.

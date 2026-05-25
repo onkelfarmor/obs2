@@ -5,7 +5,7 @@
   "documentation": "https://github.com/onkelfarmor/obs2",
   "requirements": ["aiomqtt>=2.3.0"],
   "dependencies": [],
-  "codeowners": [],
+  "codeowners": ["@onkelfarmor"],
   "iot_class": "cloud_polling",
   "config_flow": true
 }
