@@ -50,7 +50,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    coordinators: dict = hass.data[DOMAIN][entry.entry_id]
+    coordinators: dict = hass.data[DOMAIN][entry.entry_id]["coordinators"]
     async_add_entities(
         NavimowSensor(coord, device, desc)
         for coord, device in coordinators.values()

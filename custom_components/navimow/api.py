@@ -56,3 +56,13 @@ class NavimowAPI:
 
     async def async_dock(self, device_id: str):
         await self._send_command(device_id, CMD_DOCK)
+
+    async def async_get_mqtt_info(self) -> dict:
+        headers = await self._headers()
+        async with self._session.get(
+            f"{API_BASE}/openapi/mqtt/userInfo/get/v2",
+            headers=headers,
+        ) as resp:
+            resp.raise_for_status()
+            data = await resp.json()
+            return data.get("data", {}) if isinstance(data, dict) else {}

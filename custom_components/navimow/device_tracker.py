@@ -16,7 +16,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    coordinators: dict = hass.data[DOMAIN][entry.entry_id]
+    coordinators: dict = hass.data[DOMAIN][entry.entry_id]["coordinators"]
     dock_lat: float = entry.data[CONF_DOCK_LAT]
     dock_lng: float = entry.data[CONF_DOCK_LNG]
     async_add_entities(
