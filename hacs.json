@@ -1,0 +1,6 @@
+{
+  "name": "Navimow Baden & MinForsyning",
+  "render_readme": true,
+  "homeassistant": "2024.1.0",
+  "content_in_root": false
+}

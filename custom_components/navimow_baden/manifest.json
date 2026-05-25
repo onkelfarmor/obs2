@@ -1,0 +1,11 @@
+{
+  "domain": "navimow_baden",
+  "name": "Navimow Baden",
+  "version": "1.0.0",
+  "documentation": "https://github.com/onkelfarmor/obs2",
+  "requirements": ["aiomqtt>=2.3.0"],
+  "dependencies": [],
+  "codeowners": ["@onkelfarmor"],
+  "iot_class": "cloud_polling",
+  "config_flow": true
+}
