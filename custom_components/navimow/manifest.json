@@ -1,0 +1,11 @@
+{
+  "domain": "navimow",
+  "name": "Navimow",
+  "version": "1.0.0",
+  "documentation": "https://github.com/onkelfarmor/obs2",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": [],
+  "iot_class": "cloud_polling",
+  "config_flow": true
+}
