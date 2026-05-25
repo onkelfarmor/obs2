@@ -4,7 +4,7 @@ Dette repository indeholder to Home Assistant custom integrations:
 
 | Integration | Beskrivelse |
 |-------------|-------------|
-| **Navimow** | Segway Navimow plæneklipper — status, kontrol, batteri og GPS-stivisualisering |
+| **Navimow Baden** | Segway Navimow plæneklipper — status, kontrol, batteri og GPS-stivisualisering |
 | **MinForsyning** | KMD Easy Energy vandforbrug — sensorer til Energy Dashboard |
 
 ---
@@ -14,19 +14,19 @@ Dette repository indeholder to Home Assistant custom integrations:
 1. Åbn HACS i Home Assistant.
 2. Klik på **⋮ → Brugerdefinerede repositories**.
 3. Indsæt `https://github.com/onkelfarmor/obs2` og vælg kategori **Integration**.
-4. Søg efter **Navimow** eller **MinForsyning** og installer.
+4. Søg efter **Navimow Baden** eller **MinForsyning** og installer begge.
 5. Genstart Home Assistant.
 
 ---
 
-# Navimow – Segway Navimow plæneklipper
+# Navimow Baden – Segway Navimow plæneklipper
 
 Integrerer Segway Navimow plæneklippere med Home Assistant via Navimows cloud-API og MQTT.
 
 ## Konfiguration
 
 1. Gå til **Indstillinger → Enheder og tjenester → Tilføj integration**.
-2. Søg efter **Navimow** og klik på den.
+2. Søg efter **Navimow Baden** og klik på den.
 3. Log ind med din Navimow-konto (åbner Navimows login-side).
 4. Angiv GPS-koordinaterne for din dokke-station (bruges til at omregne klipperens relative position til rigtige kortkoordinater).
 

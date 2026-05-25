@@ -1,4 +1,4 @@
-DOMAIN = "navimow"
+DOMAIN = "navimow_baden"
 
 OAUTH2_AUTHORIZE = "https://navimow-h5-fra.willand.com/smartHome/login?channel=homeassistant"
 OAUTH2_TOKEN = "https://navimow-fra.ninebot.com/openapi/oauth/getAccessToken"

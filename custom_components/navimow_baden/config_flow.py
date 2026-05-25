@@ -42,7 +42,7 @@ class NavimowConfigFlow(config_entry_oauth2_flow.AbstractOAuth2FlowHandler, doma
                 errors["base"] = "ugyldig_koordinat"
             else:
                 return self.async_create_entry(
-                    title="Navimow",
+                    title="Navimow Baden",
                     data={**self._oauth_data, **user_input},
                 )
 

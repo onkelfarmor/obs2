@@ -49,7 +49,7 @@ class NavimowTracker(CoordinatorEntity[NavimowCoordinator], TrackerEntity):
         self._dock_lat = dock_lat
         self._dock_lng = dock_lng
         device_id = device["deviceId"]
-        device_name = device.get("deviceName", "Navimow")
+        device_name = device.get("deviceName", "Navimow Baden")
         self._attr_unique_id = f"{device_id}_tracker"
         self._attr_name = f"{device_name} position"
         self._attr_device_info = DeviceInfo(

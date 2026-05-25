@@ -47,12 +47,12 @@ class NavimowMower(CoordinatorEntity[NavimowCoordinator], LawnMowerEntity):
         super().__init__(coordinator)
         self._device_id = device["deviceId"]
         self._attr_unique_id = f"{self._device_id}_mower"
-        self._attr_name = device.get("deviceName", "Navimow")
+        self._attr_name = device.get("deviceName", "Navimow Baden")
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, self._device_id)},
-            name=device.get("deviceName", "Navimow"),
+            name=device.get("deviceName", "Navimow Baden"),
             manufacturer="Segway",
-            model=device.get("deviceType", "Navimow"),
+            model=device.get("deviceType", "Navimow Baden"),
         )
 
     @property
