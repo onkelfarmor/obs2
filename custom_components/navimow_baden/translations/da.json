@@ -1,0 +1,28 @@
+{
+  "config": {
+    "step": {
+      "pick_implementation": {
+        "title": "Log ind med Navimow"
+      },
+      "dock": {
+        "title": "Dokke-placering",
+        "description": "Indtast GPS-koordinaterne for din Navimow-dokke. Klipperens relative position omregnes automatisk til rigtige kortkoordinater.\n\nFind koordinaterne i Google Maps ved at holde fingeren på dok-placeringen.",
+        "data": {
+          "dock_latitude": "Breddegrad (f.eks. 55.6761)",
+          "dock_longitude": "Længdegrad (f.eks. 12.5683)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Navimow er allerede konfigureret",
+      "oauth_error": "Modtog ugyldig token fra Navimow",
+      "missing_configuration": "Integrationen er ikke konfigureret korrekt"
+    },
+    "error": {
+      "ugyldig_koordinat": "Ugyldigt koordinat — angiv et tal, f.eks. 55.6761"
+    },
+    "create_entry": {
+      "default": "Navimow konfigureret"
+    }
+  }
+}
