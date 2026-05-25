@@ -9,6 +9,9 @@ API_BASE = "https://navimow-fra.ninebot.com"
 
 UPDATE_INTERVAL = 60
 
+CONF_DOCK_LAT = "dock_latitude"
+CONF_DOCK_LNG = "dock_longitude"
+
 CMD_START_STOP = "action.devices.commands.StartStop"
 CMD_PAUSE_UNPAUSE = "action.devices.commands.PauseUnpause"
 CMD_DOCK = "action.devices.commands.Dock"
