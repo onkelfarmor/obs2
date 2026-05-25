@@ -10,7 +10,7 @@ from .coordinator import NavimowCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS = ["lawn_mower", "sensor"]
+PLATFORMS = ["lawn_mower", "sensor", "device_tracker"]
 
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
