@@ -29,7 +29,7 @@ class NavimowConfigFlow(config_entry_oauth2_flow.AbstractOAuth2FlowHandler, doma
         return _LOGGER
 
     async def async_step_user(self, user_input=None):
-        """Register OAuth2 implementation, then proceed with login."""
+        """Registrer OAuth2-implementation før flow starter."""
         config_entry_oauth2_flow.async_register_implementation(
             self.hass,
             DOMAIN,

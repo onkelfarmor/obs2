@@ -47,12 +47,15 @@ class NavimowMower(CoordinatorEntity[NavimowCoordinator], LawnMowerEntity):
         super().__init__(coordinator)
         self._device_id = device["deviceId"]
         self._attr_unique_id = f"{self._device_id}_mower"
-        self._attr_name = device.get("deviceName", "Navimow Baden")
+        device_name = device.get("deviceName", "Navimow Baden")
+        self._attr_name = device_name
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, self._device_id)},
-            name=device.get("deviceName", "Navimow Baden"),
+            name=device_name,
             manufacturer="Segway",
-            model=device.get("deviceType", "Navimow Baden"),
+            model=device.get("model") or device.get("deviceType", "Navimow"),
+            sw_version=device.get("firmware_version") or device.get("firmwareVersion"),
+            serial_number=device.get("serial_number") or device.get("serialNumber"),
         )
 
     @property
@@ -76,6 +79,11 @@ class NavimowMower(CoordinatorEntity[NavimowCoordinator], LawnMowerEntity):
             attrs["fejlbesked"] = msg
         if (sig := data.get("signalStrength")) is not None:
             attrs["signalstyrke"] = sig
+        if (area := data.get("subtotalArea")) is not None:
+            attrs["klippet_areal_m2"] = area
+        raw = str(data.get("vehicleState", "")).lower()
+        if raw:
+            attrs["raw_tilstand"] = raw
         return attrs
 
     async def async_start_mowing(self) -> None:

@@ -17,12 +17,29 @@ CMD_PAUSE_UNPAUSE = "action.devices.commands.PauseUnpause"
 CMD_DOCK = "action.devices.commands.Dock"
 
 VEHICLE_STATE_MAP = {
+    # Normal driftstilstande
     "idle": "docked",
+    "isidle": "docked",
     "docked": "docked",
+    "isdocked": "docked",
     "charging": "docked",
-    "mowing": "mowing",
-    "paused": "paused",
+    "ischarging": "docked",
     "returning": "docked",
+    "isdocking": "docked",
+    "offline": "docked",
+    # Klipning
+    "mowing": "mowing",
+    "isrunning": "mowing",
+    "mapping": "mowing",
+    "ismapping": "mowing",
+    # Pause
+    "paused": "paused",
+    "ispaused": "paused",
+    # Fejl/særtilstande
     "error": "error",
+    "islifted": "error",
+    "lifted": "error",
+    "insoftwareupdate": "error",
+    "self-checking": "error",
     "unknown": "error",
 }

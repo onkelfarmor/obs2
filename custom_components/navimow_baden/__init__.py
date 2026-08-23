@@ -15,6 +15,7 @@ PLATFORMS = ["lawn_mower", "sensor", "device_tracker", "image"]
 
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+    """Registrer OAuth2-implementation ved HA-opstart."""
     config_entry_oauth2_flow.async_register_implementation(
         hass,
         DOMAIN,
@@ -47,7 +48,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await coord.async_config_entry_first_refresh()
         coordinators[device_id] = (coord, device)
 
-    # Start MQTT til realtids-stivisualisering
     mqtt_handler: NavimowMQTTHandler | None = None
     try:
         mqtt_info = await api.async_get_mqtt_info()
