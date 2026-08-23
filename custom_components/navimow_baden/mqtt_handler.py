@@ -17,13 +17,15 @@ class NavimowMQTTHandler:
         self._info = mqtt_info
         self._device_ids = device_ids
         self._paths: dict[str, deque] = {d: deque(maxlen=MAX_POINTS) for d in device_ids}
+        self._attributes: dict[str, dict] = {d: {} for d in device_ids}
         self._listeners: dict[str, list] = {}
         self._task: asyncio.Task | None = None
 
-    # --- Offentlig API ---
-
-    def get_path(self, device_id: str) -> list[tuple[float, float]]:
+    def get_path(self, device_id: str) -> list[tuple[float, float, float]]:
         return list(self._paths.get(device_id, []))
+
+    def get_attributes(self, device_id: str) -> dict:
+        return dict(self._attributes.get(device_id, {}))
 
     def reset_path(self, device_id: str) -> None:
         self._paths.setdefault(device_id, deque(maxlen=MAX_POINTS)).clear()
@@ -42,8 +44,6 @@ class NavimowMQTTHandler:
                 await self._task
             except asyncio.CancelledError:
                 pass
-
-    # --- Internt ---
 
     def _notify(self, device_id: str) -> None:
         for cb in self._listeners.get(device_id, []):
@@ -75,15 +75,14 @@ class NavimowMQTTHandler:
         return params
 
     async def _run(self) -> None:
-        import aiomqtt  # kræver aiomqtt>=2.3.0 installeret
+        import aiomqtt
 
-        topics = [
-            f"/downlink/vehicle/{dev}/realtimeDate/location"
-            for dev in self._device_ids
-        ] + [
-            f"/downlink/vehicle/{dev}/realtimeDate/state"
-            for dev in self._device_ids
-        ]
+        topics = []
+        for dev in self._device_ids:
+            topics.append(f"/downlink/vehicle/{dev}/realtimeDate/location")
+            topics.append(f"/downlink/vehicle/{dev}/realtimeDate/state")
+            topics.append(f"/downlink/vehicle/{dev}/realtimeDate/attributes")
+            topics.append(f"/downlink/vehicle/{dev}/realtimeDate/event")
 
         params = self._connection_params()
 
@@ -107,7 +106,6 @@ class NavimowMQTTHandler:
         except (json.JSONDecodeError, ValueError):
             return
 
-        # /downlink/vehicle/{device_id}/realtimeDate/{channel}
         parts = topic.split("/")
         if len(parts) < 5:
             return
@@ -118,21 +116,38 @@ class NavimowMQTTHandler:
             self._handle_location(device_id, data)
         elif channel == "state":
             self._handle_state(device_id, data)
+        elif channel == "attributes":
+            self._handle_attributes(device_id, data)
+        elif channel == "event":
+            _LOGGER.debug("Navimow %s event: %s", device_id, data)
 
     def _handle_location(self, device_id: str, data: dict) -> None:
         pos_x = data.get("posX") or data.get("postureX") or data.get("x")
         pos_y = data.get("posY") or data.get("postureY") or data.get("y")
+        theta = data.get("postureTheta") or data.get("theta") or 0.0
         if pos_x is None or pos_y is None:
             return
         self._paths.setdefault(device_id, deque(maxlen=MAX_POINTS)).append(
-            (float(pos_x), float(pos_y))
+            (float(pos_x), float(pos_y), float(theta))
         )
         self._notify(device_id)
 
     def _handle_state(self, device_id: str, data: dict) -> None:
         state = str(data.get("vehicleState", "")).lower()
-        # Nulstil stien når klipperen vender tilbage til dok
-        if state in ("docked", "idle", "charging"):
+        if state in ("docked", "idle", "charging", "isdocked", "isidle", "ischarging"):
             if self._paths.get(device_id):
                 _LOGGER.debug("Navimow %s returnerede til dok — nulstiller sti", device_id)
                 self.reset_path(device_id)
+
+    def _handle_attributes(self, device_id: str, data: dict) -> None:
+        attrs = self._attributes.setdefault(device_id, {})
+        for key in (
+            "battery", "capacityRemaining", "descriptiveCapacityRemaining",
+            "signal_strength", "signalStrength",
+            "firmware_version", "firmwareVersion",
+            "serial_number", "serialNumber",
+            "online",
+        ):
+            if key in data:
+                attrs[key] = data[key]
+        self._notify(device_id)

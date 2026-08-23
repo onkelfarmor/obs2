@@ -4,7 +4,7 @@ from typing import Any
 import voluptuous as vol
 from homeassistant.helpers import config_entry_oauth2_flow
 
-from .const import CONF_DOCK_LAT, CONF_DOCK_LNG, DOMAIN
+from .const import CLIENT_ID, CLIENT_SECRET, CONF_DOCK_LAT, CONF_DOCK_LNG, DOMAIN, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -27,6 +27,22 @@ class NavimowConfigFlow(config_entry_oauth2_flow.AbstractOAuth2FlowHandler, doma
     @property
     def logger(self) -> logging.Logger:
         return _LOGGER
+
+    async def async_step_user(self, user_input=None):
+        """Registrer OAuth2-implementation før flow starter."""
+        config_entry_oauth2_flow.async_register_implementation(
+            self.hass,
+            DOMAIN,
+            config_entry_oauth2_flow.LocalOAuth2Implementation(
+                self.hass,
+                DOMAIN,
+                CLIENT_ID,
+                CLIENT_SECRET,
+                OAUTH2_AUTHORIZE,
+                OAUTH2_TOKEN,
+            ),
+        )
+        return await super().async_step_user(user_input)
 
     async def async_oauth_create_entry(self, data: dict) -> dict:
         self._oauth_data = data
